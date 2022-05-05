@@ -25,7 +25,7 @@ export default {
   methods: {
     startGame() {
       // Delay between 2s and 7s
-      this.delay = 2000 + Math.random() * 5000;
+      this.delay = 1000 + Math.random() * 5000;
       this.onGame = true;
     },
   },
