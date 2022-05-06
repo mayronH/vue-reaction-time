@@ -6,20 +6,25 @@
     <p v-show="onGame">
       A box will appear at random, try to click on it the faster as you can
     </p>
-    <BoxReaction v-if="onGame" :delay="delay" />
+
+    <BoxReaction v-if="onGame" :delay="delay" @endGame="endGame" />
+    <ResultReaction v-if="showResult" :score="score" />
   </main>
 </template>
 
 <script>
 import BoxReaction from "./components/BoxReaction.vue";
+import ResultReaction from "./components/ResultReaction.vue";
 
 export default {
   name: "App",
-  components: { BoxReaction },
+  components: { BoxReaction, ResultReaction },
   data() {
     return {
       onGame: false,
       delay: null,
+      score: null,
+      showResult: false,
     };
   },
   methods: {
@@ -27,6 +32,12 @@ export default {
       // Delay between 2s and 7s
       this.delay = 1000 + Math.random() * 5000;
       this.onGame = true;
+      this.showResult = false;
+    },
+    endGame(reactionTime) {
+      this.score = reactionTime;
+      this.onGame = false;
+      this.showResult = true;
     },
   },
 };
@@ -48,7 +59,6 @@ main {
 
   padding-top: 80px;
 }
-
 h1 {
   margin-bottom: 1rem;
 }

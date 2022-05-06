@@ -1,44 +1,58 @@
 <template>
-  <div class="box" v-if="showBox" @click="stopTimer">click</div>
-  {{ reactionTime }}
+  <div class="tooFast" @click.self="handleMissClick">
+    <div class="box" v-if="showBox" @click="stopTimer">click</div>
+  </div>
 </template>
 <script>
 export default {
   name: "BoxReaction",
-  props: ["delay"],
+  props: ["delay", "onGame"],
   data() {
     return {
       showBox: false,
-      timer: null,
+      startTime: null,
+      timeout: null,
       reactionTime: 0,
     };
   },
   mounted() {
-    setTimeout(() => {
+    this.timeout = setTimeout(() => {
       this.showBox = true;
       this.startTimer();
     }, this.delay);
   },
-  //   updated() {
-  //     console.log("updated");
-  //   },
-  //   unmounted() {
-  //     console.log("unmounted");
-  //   },
   methods: {
+    emitEndGame() {
+      this.$emit("endGame", this.reactionTime);
+    },
     startTimer() {
-      this.timer = setInterval(() => (this.reactionTime += 1), 1);
+      this.startTime = Date.now();
     },
     stopTimer() {
-      clearInterval(this.timer);
-      this.showBox = !this.showBox;
-      console.log(this.reactionTime);
+      this.reactionTime = Date.now();
+      this.reactionTime = this.reactionTime - this.startTime;
+      this.emitEndGame();
+    },
+    handleMissClick() {
+      clearTimeout(this.timeout);
+      this.reactionTime = -1;
+      this.emitEndGame();
     },
   },
 };
 </script>
 
 <style scoped>
+.tooFast {
+  width: 100%;
+  min-height: 200px;
+
+  padding-top: 40px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .box {
   width: 40%;
 
@@ -48,9 +62,8 @@ export default {
   color: #fff;
 
   padding: 90px 0;
+  margin: auto;
 
   border-radius: 5px;
-
-  margin-top: 40px;
 }
 </style>
