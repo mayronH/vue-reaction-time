@@ -1,69 +1,69 @@
 <template>
-  <div class="tooFast" @click.self="handleMissClick">
-    <div class="box" v-if="showBox" @click="stopTimer">click</div>
-  </div>
+    <div class="tooFast" @click.self="handleMissClick">
+        <div class="box" v-if="showBox" @click="stopTimer">click</div>
+    </div>
 </template>
 <script>
 export default {
-  name: "BoxReaction",
-  props: ["delay", "onGame"],
-  data() {
-    return {
-      showBox: false,
-      startTime: null,
-      timeout: null,
-      reactionTime: 0,
-    };
-  },
-  mounted() {
-    this.timeout = setTimeout(() => {
-      this.showBox = true;
-      this.startTimer();
-    }, this.delay);
-  },
-  methods: {
-    emitEndGame() {
-      this.$emit("endGame", this.reactionTime);
+    name: "BoxReaction",
+    props: ["delay", "onGame"],
+    data() {
+        return {
+            showBox: false,
+            startTime: null,
+            timeout: null,
+            reactionTime: 0,
+        };
     },
-    startTimer() {
-      this.startTime = Date.now();
+    mounted() {
+        this.timeout = setTimeout(() => {
+            this.showBox = true;
+            this.startTimer();
+        }, this.delay);
     },
-    stopTimer() {
-      this.reactionTime = Date.now();
-      this.reactionTime = this.reactionTime - this.startTime;
-      this.emitEndGame();
+    methods: {
+        emitEndGame() {
+            this.$emit("endGame", this.reactionTime);
+        },
+        startTimer() {
+            this.startTime = Date.now();
+        },
+        stopTimer() {
+            this.reactionTime = Date.now();
+            this.reactionTime = this.reactionTime - this.startTime;
+            this.emitEndGame();
+        },
+        handleMissClick() {
+            clearTimeout(this.timeout);
+            this.reactionTime = -1;
+            this.emitEndGame();
+        },
     },
-    handleMissClick() {
-      clearTimeout(this.timeout);
-      this.reactionTime = -1;
-      this.emitEndGame();
-    },
-  },
 };
 </script>
 
 <style scoped>
 .tooFast {
-  width: 100%;
-  min-height: 200px;
+    width: 100%;
+    min-height: 200px;
 
-  padding-top: 40px;
+    padding-top: 40px;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .box {
-  width: 40%;
+    width: 40%;
 
-  background: #f36932;
+    background: var(--accent);
 
-  text-align: center;
-  color: #fff;
+    text-align: center;
+    color: var(--text);
 
-  padding: 90px 0;
-  margin: auto;
+    padding: 90px 0;
+    margin: auto;
 
-  border-radius: 5px;
+    border-radius: 5px;
 }
 </style>
