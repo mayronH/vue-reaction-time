@@ -1,19 +1,28 @@
 {
-  "name": "reaction-time",
+  "name": "vue-template",
   "private": true,
-  "version": "0.1.1",
+  "version": "1.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
+    "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
     "firebase": "^9.8.4",
     "pinia": "^2.0.14",
-    "vue": "^3.2.37"
+    "vue": "^3.2.25"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.29.0",
+    "@typescript-eslint/parser": "^5.29.0",
     "@vitejs/plugin-vue": "^2.3.3",
-    "vite": "^2.9.13"
+    "eslint": "^8.18.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-vue": "^9.1.1",
+    "typescript": "^4.5.4",
+    "vite": "^2.9.9",
+    "vite-plugin-eslint": "^1.6.1",
+    "vue-tsc": "^0.34.7"
   }
 }
